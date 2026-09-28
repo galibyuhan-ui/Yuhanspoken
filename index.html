@@ -1,0 +1,624 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Adda English</title><script src="https://telegram.org/js/telegram-web-app.js"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=Hind+Siliguri:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F4F6F1; --surface:#FFFFFF; --surface2:#EAF0EA; --ink:#15211B; --muted:#5A6860; --line:#D5DDD6;
+  --green:#0B5D45; --green-soft:#DCEDE4; --red:#C23A2F; --red-soft:#F8E1DD; --gold:#B7791F;
+  --ok:#1D7A4E; --ok-soft:#DDF1E5; --bad:#B3362B; --bad-soft:#F7E0DC;
+  --bubbleA:#FFFFFF; --bubbleB:#0B5D45; --bubbleBInk:#F2FAF5;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --bn:"Hind Siliguri", "Noto Sans Bengali", "Vrinda", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1512; --surface:#16201B; --surface2:#1C2923; --ink:#E4ECE7; --muted:#99A89F; --line:#2B3A33;
+    --green:#5CC49B; --green-soft:#1B3A2E; --red:#EE7266; --red-soft:#3A1F1C; --gold:#E0A84E;
+    --ok:#5CC49B; --ok-soft:#173828; --bad:#F08579; --bad-soft:#3C1F1B;
+    --bubbleA:#1C2923; --bubbleB:#1F5A45; --bubbleBInk:#EAF6EF;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1512; --surface:#16201B; --surface2:#1C2923; --ink:#E4ECE7; --muted:#99A89F; --line:#2B3A33;
+  --green:#5CC49B; --green-soft:#1B3A2E; --red:#EE7266; --red-soft:#3A1F1C; --gold:#E0A84E;
+  --ok:#5CC49B; --ok-soft:#173828; --bad:#F08579; --bad-soft:#3C1F1B;
+  --bubbleA:#1C2923; --bubbleB:#1F5A45; --bubbleBInk:#EAF6EF;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:880px;margin:0 auto}
+.bn{font-family:var(--bn);font-weight:500}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,.card:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.hidebn .bn-only{display:none!important}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;align-items:center;gap:12px;padding-block:14px;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--display);font-weight:800;font-size:20px;display:flex;align-items:baseline;gap:8px}
+.brand small{font-family:var(--bn);font-weight:500;font-size:14px;color:var(--muted)}
+.spacer{flex:1}
+.toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px 6px 6px;font-size:14px}
+.toggle .knob{width:34px;height:20px;border-radius:999px;background:var(--line);position:relative;transition:background .2s}
+.toggle .knob::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--surface);transition:transform .2s}
+.toggle[aria-pressed="true"] .knob{background:var(--green)}
+.toggle[aria-pressed="true"] .knob::after{transform:translateX(14px)}
+
+/* home */
+.hero{padding-block:36px 20px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);font-weight:700}
+.hero h1{font-size:clamp(32px,6vw,52px);font-weight:800;line-height:1.05;margin-top:8px}
+.hero h1 span{color:var(--green)}
+.hero p{max-width:60ch;color:var(--muted);margin:12px 0 0}
+.how{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.how span{font-size:13px;background:var(--surface2);border-radius:6px;padding:4px 10px;color:var(--ink)}
+.progress{margin-top:22px;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
+.pbar{flex:1;max-width:260px;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--green);border-radius:99px;transition:width .4s}
+.level{margin-top:34px}
+.levelhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.levelhead h2{font-size:22px;font-weight:700}
+.levelhead .lv{font-family:var(--display);font-weight:800;color:var(--surface);background:var(--green);border-radius:6px;padding:2px 9px;font-size:14px}
+.levelhead .bn{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s, transform .15s}
+.card:hover{border-color:var(--green);transform:translateY(-2px)}
+.card .num{font-family:var(--display);font-weight:700;font-size:13px;color:var(--muted);display:flex;justify-content:space-between}
+.card .done{color:var(--ok)}
+.card h3{font-size:19px;font-weight:700}
+.card .bn{color:var(--muted);font-size:15px}
+.card .scene{font-size:14px;color:var(--muted);margin-top:4px}
+
+/* topic */
+.thead{padding-block:22px 6px}
+.thead h1{font-size:clamp(26px,5vw,38px);font-weight:800}
+.thead .bn{font-size:18px;color:var(--muted);margin-top:2px}
+.back{border:none;background:none;padding:6px 0;color:var(--green);font-weight:700;display:inline-flex;gap:6px;align-items:center}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-block:16px 22px}
+.steps button{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:14px;font-weight:700}
+.steps button small{font-family:var(--bn);font-weight:500;color:var(--muted);font-size:12px}
+.steps button[aria-current="step"]{background:var(--green);border-color:var(--green);color:var(--surface)}
+.steps button[aria-current="step"] small{color:var(--surface);opacity:.85}
+.steps button .n{font-family:var(--display);font-size:12px;opacity:.7}
+
+.panel{display:flex;flex-direction:column;gap:18px}
+.section-title{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;gap:8px;align-items:baseline}
+.section-title .bn{text-transform:none;letter-spacing:0;font-size:14px}
+
+.words{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.word{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;text-align:left;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.word b{display:block;font-size:17px}
+.word .bn{color:var(--green);font-size:15px}
+.spk{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface2);display:inline-grid;place-items:center;color:var(--green)}
+.spk svg{width:16px;height:16px}
+.notts .spk{display:none}
+.rep{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.reps{display:inline-flex;gap:4px;flex-wrap:wrap}
+.rx{min-width:38px;height:28px;border:1px solid var(--line);background:var(--surface);border-radius:999px;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--muted);padding:0 8px}
+.rx:hover{border-color:var(--green);color:var(--green)}
+.rx.on,.spk.on{background:var(--green);border-color:var(--green);color:var(--surface)}
+.msg.b .rx{background:transparent;border-color:rgba(255,255,255,.35);color:var(--bubbleBInk)}
+.msg.b .rx.on,.msg.b .spk.on{background:var(--bubbleBInk);border-color:var(--bubbleBInk);color:var(--bubbleB)}
+.bctl{margin-top:6px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:14px;color:var(--muted);background:var(--surface2);border-radius:10px;padding:10px 14px}
+.pattern .pr{grid-column:1/-1}
+
+.patterns{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pattern{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 16px;border-top:1px solid var(--line)}
+.pattern:first-child{border-top:none}
+.pattern .en{font-weight:700}
+.pattern .en em{font-style:normal;color:var(--red);border-bottom:2px dotted var(--red)}
+.pattern .bn{color:var(--muted)}
+.hidebn .pattern{grid-template-columns:1fr}
+.mistake{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mistake div{border-radius:10px;padding:12px 14px}
+.mistake .w{background:var(--bad-soft)}
+.mistake .r{background:var(--ok-soft)}
+.mistake small{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.mistake .w small{color:var(--bad)} .mistake .r small{color:var(--ok)}
+.mistake .w span{text-decoration:line-through;text-decoration-color:var(--bad)}
+.mistake p{grid-column:1/-1;margin:0;color:var(--muted);font-size:15px}
+
+.scenebox{background:var(--surface2);border-radius:12px;padding:14px 16px;display:flex;gap:14px;align-items:flex-start}
+.scenebox .tag{font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);padding-top:3px;flex:none}
+.scenebox p{margin:0}
+.scenebox .bn{color:var(--muted);font-size:15px}
+.modes{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:700}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.chat{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 14px;min-height:120px}
+.msg{display:flex;gap:10px;align-items:flex-end;max-width:88%}
+.msg:last-child{animation:pop .28s ease-out}
+.msg.b{align-self:flex-end;flex-direction:row-reverse}
+.av{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:14px;background:var(--red-soft);color:var(--red)}
+.msg.b .av{background:var(--green-soft);color:var(--green)}
+.bubble{background:var(--bubbleA);border:1px solid var(--line);border-radius:16px 16px 16px 4px;padding:10px 14px;display:flex;flex-direction:column;gap:3px}
+.msg.b .bubble{background:var(--bubbleB);color:var(--bubbleBInk);border-color:transparent;border-radius:16px 16px 4px 16px}
+.bubble .who{font-size:12px;font-weight:700;opacity:.7}
+.bubble .en{font-size:17px}
+.bubble .bn{font-size:15px;opacity:.78}
+.bubble .row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.msg.b .spk{background:transparent;border-color:rgba(255,255,255,.35);color:var(--bubbleBInk)}
+.rp-prompt{font-size:13px;font-weight:700;opacity:.8}
+.reveal{margin-top:4px;align-self:flex-start;border:1px dashed currentColor;background:transparent;border-radius:8px;padding:5px 10px;font-size:14px;font-weight:700}
+.chatctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 16px;font-weight:700;font-size:15px}
+.btn.primary{background:var(--green);border-color:var(--green);color:var(--surface)}
+.btn[disabled]{opacity:.45;cursor:default}
+.counter{margin-left:auto;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+@keyframes pop{from{transform:translateY(8px);opacity:.3}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){.msg{animation:none}.card,.pbar i{transition:none}}
+
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.q .said{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.q .said .en{font-size:17px;font-weight:700}
+.q .said small{display:block;color:var(--muted);font-size:13px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 14px;font-size:16px;display:flex;justify-content:space-between;gap:10px}
+.opt:hover:not([disabled]){border-color:var(--green)}
+.opt.right{background:var(--ok-soft);border-color:var(--ok);color:var(--ink)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--ink)}
+.opt[disabled]{cursor:default}
+.opt .mark{font-weight:700}
+.opt.right .mark{color:var(--ok)} .opt.wrong .mark{color:var(--bad)}
+.score{font-family:var(--display);font-weight:700;font-size:18px}
+
+.sp{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.sp .qq{font-size:18px;font-weight:700}
+.sp .bn{color:var(--muted)}
+.sp .ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.timer{font-family:var(--display);font-weight:800;font-size:22px;font-variant-numeric:tabular-nums;color:var(--green);min-width:3ch}
+.timer.low{color:var(--red)}
+.sample{background:var(--surface2);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.sample small{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.helpers{display:flex;flex-wrap:wrap;gap:6px}
+.helpers span{font-size:13px;border:1px solid var(--line);border-radius:6px;padding:3px 8px;color:var(--muted)}
+
+.stepnav{display:flex;justify-content:space-between;gap:10px;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+.finish{background:var(--green-soft);border-radius:12px;padding:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.finish p{margin:0;flex:1;min-width:200px}
+footer{margin-top:48px;font-size:13px;color:var(--muted)}
+
+@media (max-width:560px){
+  .steps button{font-size:12px;padding:8px 2px}
+  .steps button small{display:none}
+  .pattern,.mistake{grid-template-columns:1fr}
+  .msg{max-width:96%}
+  .brand small{display:none}
+}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+const TOPICS = [
+/* ---------- LEVEL 1 ---------- */
+{ id:"greet", level:1, en:"Hello! Nice to meet you", bn:"শুভেচ্ছা ও পরিচয়",
+  scene:["First day at a coaching centre. Rahim meets a new classmate, Nadia.","কোচিং সেন্টারে প্রথম দিন। রহিমের সাথে নতুন সহপাঠী নাদিয়ার দেখা।"],
+  people:["Rahim","Nadia"],
+  words:[["Nice to meet you","আপনার/তোমার সাথে পরিচিত হয়ে ভালো লাগলো"],["I'm from…","আমি … থেকে এসেছি"],["I live in…","আমি … এ থাকি"],["student","ছাত্র / ছাত্রী"],["classmate","সহপাঠী"],["practise","অনুশীলন করা"]],
+  lines:[[0,"Assalamu alaikum! Hi, I'm Rahim.","আসসালামু আলাইকুম! হাই, আমি রহিম।"],[1,"Walaikum assalam. I'm Nadia. Nice to meet you.","ওয়ালাইকুম আসসালাম। আমি নাদিয়া। তোমার সাথে পরিচিত হয়ে ভালো লাগলো।"],[0,"Nice to meet you too. Where are you from?","আমারও ভালো লাগলো। তুমি কোথা থেকে এসেছ?"],[1,"I'm from Sylhet. And you?","আমি সিলেট থেকে। আর তুমি?"],[0,"I'm from Rajshahi, but I live in Dhaka now.","আমি রাজশাহী থেকে, কিন্তু এখন ঢাকায় থাকি।"],[1,"What do you do?","তুমি কী করো?"],[0,"I'm a student. I'm learning English.","আমি একজন ছাত্র। আমি ইংরেজি শিখছি।"],[1,"Me too! Let's practise together.","আমিও! চলো একসাথে অনুশীলন করি।"]],
+  patterns:[["I'm <em>Rahim</em>.","আমি রহিম।"],["I'm from <em>Sylhet</em>.","আমি সিলেট থেকে এসেছি।"],["I live in <em>Dhaka</em> now.","আমি এখন ঢাকায় থাকি।"],["I'm a <em>student</em>.","আমি একজন ছাত্র।"]],
+  mistake:["I am come from Sylhet.","I'm from Sylhet. / I come from Sylhet.","“am” আর “come” একসাথে বসে না। যেকোনো একটি ব্যবহার করো।"],
+  quiz:[["Nice to meet you.",["Nice to meet you too.","Yes, I am.","I'm fine, thank you."]],["Where are you from?",["I'm from Khulna.","I'm a student.","It's ten o'clock."]],["What do you do?",["I'm a teacher.","I'm from Barishal.","I do very fine."]]],
+  speak:[["Introduce yourself in three sentences.","তিনটি বাক্যে নিজের পরিচয় দাও।","Hi, I'm Sadia. I'm from Cumilla, but I live in Dhaka now. I'm a university student.",["I'm…","I'm from…","I live in…","I'm a…"]],["Meet a new person and ask them two questions.","নতুন কারো সাথে দেখা হলে তাকে দুটি প্রশ্ন করো।","Hi, nice to meet you! Where are you from? And what do you do?",["Where…?","What…?","Nice to meet you"]]]
+},
+{ id:"family", level:1, en:"My family", bn:"আমার পরিবার",
+  scene:["Tania and Arif are chatting during a break at college.","কলেজের বিরতিতে তানিয়া আর আরিফ গল্প করছে।"],
+  people:["Tania","Arif"],
+  words:[["parents","মা-বাবা"],["elder brother","বড় ভাই"],["younger sister","ছোট বোন"],["grandparents","দাদা-দাদি / নানা-নানি"],["joint family","যৌথ পরিবার"],["housewife / homemaker","গৃহিণী"]],
+  lines:[[0,"How many people are there in your family?","তোমার পরিবারে কতজন সদস্য?"],[1,"There are five of us.","আমরা পাঁচজন।"],[0,"Who are they?","তারা কারা?"],[1,"My parents, my elder brother, my younger sister and me.","আমার মা-বাবা, বড় ভাই, ছোট বোন আর আমি।"],[0,"What does your father do?","তোমার বাবা কী করেন?"],[1,"He's a farmer. My mother is a homemaker.","তিনি একজন কৃষক। আমার মা গৃহিণী।"],[0,"Do you live with your grandparents?","তুমি কি দাদা-দাদির সাথে থাকো?"],[1,"Yes, we live in a joint family. I love it.","হ্যাঁ, আমরা যৌথ পরিবারে থাকি। আমার খুব ভালো লাগে।"]],
+  patterns:[["There are <em>five</em> of us.","আমরা পাঁচজন।"],["My <em>father</em> is a <em>farmer</em>.","আমার বাবা একজন কৃষক।"],["I have <em>one elder brother</em>.","আমার একজন বড় ভাই আছে।"],["We live in a <em>joint</em> family.","আমরা যৌথ পরিবারে থাকি।"]],
+  mistake:["We are five members.","There are five people in my family. / There are five of us.","বাংলার মতো “আমরা পাঁচ সদস্য” সরাসরি অনুবাদ করো না।"],
+  quiz:[["How many people are there in your family?",["There are four of us.","They are good.","I have family."]],["What does your mother do?",["She's a teacher.","She is forty-five.","She does fine."]],["Do you have any brothers or sisters?",["Yes, I have one brother.","Yes, I do it.","No, I am alone sister."]]],
+  speak:[["Talk about your family: how many people, who they are, what they do.","তোমার পরিবার সম্পর্কে বলো: কতজন, কারা, কে কী করেন।","There are four of us: my parents, my younger brother and me. My father works in a bank and my mother is a teacher. We live in a small flat in Chattogram.",["There are…","My father…","We live…"]],["Who are you closest to in your family? Why?","পরিবারে কার সাথে তুমি সবচেয়ে ঘনিষ্ঠ? কেন?","I'm closest to my grandmother. She tells me stories and always listens to me.",["I'm closest to…","because…"]]]
+},
+{ id:"home", level:1, en:"My hometown", bn:"আমার গ্রামের বাড়ি",
+  scene:["Two office colleagues talk about where they grew up.","দুজন অফিস সহকর্মী তাদের বেড়ে ওঠার জায়গা নিয়ে কথা বলছে।"],
+  people:["Maruf","Shila"],
+  words:[["hometown","নিজের এলাকা / বাড়ি"],["village","গ্রাম"],["district","জেলা"],["famous for","… এর জন্য বিখ্যাত"],["paddy field","ধানক্ষেত"],["peaceful","শান্ত"]],
+  lines:[[0,"Where's your hometown?","তোমার বাড়ি কোথায়?"],[1,"My hometown is in Bogura.","আমার বাড়ি বগুড়ায়।"],[0,"What is Bogura famous for?","বগুড়া কিসের জন্য বিখ্যাত?"],[1,"It's famous for its sweet yoghurt — mishti doi.","বগুড়া মিষ্টি দইয়ের জন্য বিখ্যাত।"],[0,"Is it a village or a town?","এটা কি গ্রাম, নাকি শহর?"],[1,"I'm from a village. There are paddy fields and a small river.","আমি একটা গ্রাম থেকে এসেছি। সেখানে ধানক্ষেত আর একটা ছোট নদী আছে।"],[0,"It sounds very peaceful.","শুনে মনে হচ্ছে জায়গাটা খুব শান্ত।"],[1,"It is. I go there every Eid.","হ্যাঁ। আমি প্রতি ঈদে সেখানে যাই।"]],
+  patterns:[["My hometown is in <em>Bogura</em>.","আমার বাড়ি বগুড়ায়।"],["It's famous for <em>its sweet yoghurt</em>.","এটা মিষ্টি দইয়ের জন্য বিখ্যাত।"],["There are <em>paddy fields</em> and <em>a river</em>.","সেখানে ধানক্ষেত আর একটা নদী আছে।"],["I go there <em>every Eid</em>.","আমি প্রতি ঈদে সেখানে যাই।"]],
+  mistake:["My home is Bogura.","My hometown is Bogura. / I'm from Bogura.","বাংলায় “বাড়ি” মানে জন্মস্থান বোঝায়, কিন্তু ইংরেজিতে “home” মানে এখন যেখানে থাকো। তাই “hometown” বলো।"],
+  quiz:[["Where's your hometown?",["It's in Barishal.","My home is village.","I am hometown."]],["What is it famous for?",["It's famous for its rivers.","It's famous by rivers.","It famous."]],["Do you like living there?",["Yes, it's quiet and green.","Yes, I am like.","Yes, living."]]],
+  speak:[["Describe your hometown.","তোমার নিজের এলাকার বর্ণনা দাও।","My hometown is Jashore. It's a small, green town. It's famous for dates and flowers. I love the quiet mornings there.",["My hometown is…","It's famous for…","There are…"]],["What do you miss most about your hometown?","নিজের এলাকার কোন জিনিসটা সবচেয়ে বেশি মনে পড়ে?","I miss the fresh air and playing football in the field with my cousins.",["I miss…","with my…"]]]
+},
+{ id:"food", level:1, en:"Rice, fish and bhorta", bn:"আমাদের খাবার",
+  scene:["Two friends are deciding what to eat for lunch.","দুই বন্ধু দুপুরে কী খাবে তা ঠিক করছে।"],
+  people:["Rafi","Mim"],
+  words:[["rice","ভাত"],["lentil soup","ডাল"],["mashed vegetables","ভর্তা"],["spicy","ঝাল"],["delicious","সুস্বাদু"],["favourite","প্রিয়"]],
+  lines:[[0,"What's your favourite food?","তোমার প্রিয় খাবার কী?"],[1,"I love rice and hilsa fish.","আমার ভাত আর ইলিশ মাছ খুব প্রিয়।"],[0,"Do you like spicy food?","তুমি কি ঝাল খাবার পছন্দ করো?"],[1,"Yes! Especially potato bhorta with green chilli.","হ্যাঁ! বিশেষ করে কাঁচা মরিচ দিয়ে আলু ভর্তা।"],[0,"Who cooks at your home?","তোমার বাসায় কে রান্না করে?"],[1,"My mother. Her dal is the best in the world!","আমার মা। তাঁর ডাল পৃথিবীর সেরা!"],[0,"Can you cook?","তুমি কি রান্না করতে পারো?"],[1,"A little. I can make tea and fried eggs.","একটু একটু। আমি চা আর ডিম ভাজি বানাতে পারি।"]],
+  patterns:[["My favourite food is <em>biryani</em>.","আমার প্রিয় খাবার বিরিয়ানি।"],["I love <em>rice and fish</em>.","আমি ভাত-মাছ খুব ভালোবাসি।"],["I can make <em>tea</em>.","আমি চা বানাতে পারি।"],["It's <em>too spicy</em> for me.","এটা আমার জন্য বেশি ঝাল।"]],
+  mistake:["I like spicy.","I like spicy food.","“spicy” একটি বিশেষণ, তাই এর পরে একটি বিশেষ্য (food) লাগে।"],
+  quiz:[["What's your favourite food?",["My favourite food is biryani.","I am food.","Yes, I eat."]],["Do you like spicy food?",["Yes, I like it a lot.","Yes, I am spicy.","Spicy is like."]],["Can you cook?",["Yes, I can cook rice and dal.","Yes, I cooking.","No, it's delicious."]]],
+  speak:[["Describe your favourite meal.","তোমার প্রিয় খাবারের বর্ণনা দাও।","My favourite meal is rice with beef curry and dal. My mother cooks it on Fridays. It's spicy and really delicious.",["My favourite meal is…","It's…","cooks it"]],["What food would you give a foreign visitor? Why?","একজন বিদেশি অতিথিকে কী খাওয়াবে? কেন?","I'd give them kacchi biryani and some mishti. Biryani is rich and tasty, and our sweets are famous.",["I'd give them…","because…"]]]
+},
+{ id:"routine", level:1, en:"My daily routine", bn:"আমার দৈনন্দিন রুটিন",
+  scene:["A teacher asks a student about his day.","শিক্ষক একজন ছাত্রকে তার দিনের রুটিন জিজ্ঞেস করছেন।"],
+  people:["Teacher","Sakib"],
+  words:[["wake up","ঘুম থেকে ওঠা"],["have breakfast","নাস্তা করা"],["go to class","ক্লাসে যাওয়া"],["take a nap","দুপুরে একটু ঘুমানো"],["usually","সাধারণত"],["after that","এরপর"]],
+  lines:[[0,"What time do you usually wake up?","তুমি সাধারণত কয়টায় ঘুম থেকে ওঠো?"],[1,"I wake up at six in the morning.","আমি সকাল ছয়টায় ঘুম থেকে উঠি।"],[0,"What do you do after that?","এরপর তুমি কী করো?"],[1,"I have breakfast — roti and egg. Then I go to college.","আমি নাস্তা করি — রুটি আর ডিম। তারপর কলেজে যাই।"],[0,"When do you come back home?","তুমি কখন বাসায় ফেরো?"],[1,"Around two. Then I have lunch and take a short nap.","প্রায় দুইটায়। তারপর দুপুরের খাবার খেয়ে একটু ঘুমাই।"],[0,"And in the evening?","আর সন্ধ্যায়?"],[1,"I study and watch TV with my family.","আমি পড়াশোনা করি আর পরিবারের সাথে টিভি দেখি।"]],
+  patterns:[["I wake up <em>at six</em>.","আমি ছয়টায় ঘুম থেকে উঠি।"],["After that, I <em>have breakfast</em>.","এরপর আমি নাস্তা করি।"],["I usually <em>study</em> in the evening.","আমি সাধারণত সন্ধ্যায় পড়ি।"],["I go to bed <em>around eleven</em>.","আমি প্রায় এগারোটায় ঘুমাতে যাই।"]],
+  mistake:["I wake up in six o'clock.","I wake up at six o'clock.","সময়ের আগে “at” বসে, “in” নয়।"],
+  quiz:[["What time do you wake up?",["At seven o'clock.","In my bed.","Yes, I wake."]],["What do you do in the evening?",["I usually study.","I am evening.","Evening is study."]],["When do you go to bed?",["Around eleven at night.","In the bedroom.","Yes, I go."]]],
+  speak:[["Describe your usual weekday.","তোমার সাধারণ একটি কর্মদিবসের বর্ণনা দাও।","I wake up at seven and have breakfast. Then I take a bus to college. I come home at three, have lunch and rest. In the evening I study for two hours.",["I wake up…","Then…","In the evening…"]],["How is your Friday different?","তোমার শুক্রবার কীভাবে আলাদা?","On Fridays I wake up late. I go to Jumma prayer with my father, and we have a big family lunch.",["On Fridays…","late","with my…"]]]
+},
+/* ---------- LEVEL 2 ---------- */
+{ id:"tea", level:2, en:"At the tea stall", bn:"চায়ের দোকানে",
+  scene:["Evening at a roadside tea stall. A customer talks to the shopkeeper.","সন্ধ্যায় রাস্তার পাশের চায়ের দোকান। একজন ক্রেতা দোকানদারের সাথে কথা বলছে।"],
+  people:["Customer","Shopkeeper"],
+  words:[["a cup of tea","এক কাপ চা"],["milk tea","দুধ চা"],["less sugar","চিনি কম"],["How much is it?","কত হলো?"],["change (money)","ভাংতি / খুচরা"],["Here you go.","এই নিন।"]],
+  lines:[[0,"Excuse me, one milk tea, please.","মামা, একটা দুধ চা দেন।"],[1,"With sugar?","চিনি দিব?"],[0,"Less sugar, please. And one biscuit.","চিনি কম দেন। আর একটা বিস্কুট।"],[1,"Here you go.","এই নেন।"],[0,"The tea is really good! How much is it?","চা-টা দারুণ হয়েছে! কত হলো?"],[1,"Twenty taka.","বিশ টাকা।"],[0,"Here's a hundred.","এই যে একশ টাকা।"],[1,"Sorry, I don't have change. Do you have a smaller note?","দুঃখিত, ভাংতি নেই। ছোট নোট আছে?"],[0,"Yes, here's twenty. Thanks!","হ্যাঁ, এই নেন বিশ টাকা। ধন্যবাদ!"]],
+  patterns:[["<em>One milk tea</em>, please.","একটা দুধ চা দিন।"],["<em>Less sugar</em>, please.","চিনি কম দিন।"],["How much is it?","কত হলো?"],["Do you have <em>change</em>?","ভাংতি আছে?"]],
+  mistake:["Mama, give one tea.","Excuse me, one tea, please. / Can I have a tea, please?","ইংরেজিতে অপরিচিত কাউকে “Mama” বলা হয় না। “Excuse me” আর “please” ব্যবহার করো।"],
+  quiz:[["Do you want sugar?",["Just a little, please.","Yes, I am sugar.","It is twenty taka."]],["Anything else?",["No, that's all, thanks.","Yes, all.","No, I am else."]],["That's twenty taka.",["Here you go.","Twenty is taka.","Yes, I go."]]],
+  speak:[["Order tea and a snack at a tea stall.","চায়ের দোকানে চা আর একটা নাস্তা অর্ডার করো।","Excuse me, can I have one milk tea with less sugar and a packet of biscuits, please?",["Can I have…","please","less sugar"]],["Why are tea stalls so popular in Bangladesh?","বাংলাদেশে চায়ের দোকান এত জনপ্রিয় কেন?","Tea stalls are cheap and friendly. People meet their friends there, chat about news and cricket, and relax after work.",["cheap","meet friends","chat about…"]]]
+},
+{ id:"rickshaw", level:2, en:"Taking a rickshaw", bn:"রিকশায় চড়া",
+  scene:["Nabila needs to go to Dhanmondi. She stops a rickshaw on the street.","নাবিলা ধানমন্ডি যাবে। সে রাস্তায় একটা রিকশা থামায়।"],
+  people:["Nabila","Rickshaw puller"],
+  words:[["Will you go to…?","… যাবেন?"],["fare","ভাড়া"],["too much","অনেক বেশি"],["turn left / right","বামে / ডানে যান"],["Stop here, please.","এখানে থামেন।"],["traffic jam","যানজট / জ্যাম"]],
+  lines:[[0,"Will you go to Dhanmondi 27?","ধানমন্ডি ২৭ যাবেন?"],[1,"Yes, I'll go.","হ্যাঁ, যাব।"],[0,"How much is the fare?","ভাড়া কত?"],[1,"Eighty taka.","আশি টাকা।"],[0,"That's too much. I'll give you sixty.","এটা অনেক বেশি। ষাট টাকা দিব।"],[1,"Okay, seventy. Get on.","আচ্ছা, সত্তর দেন। ওঠেন।"],[0,"Please go slowly. There's a lot of traffic.","একটু আস্তে চালান। অনেক জ্যাম।"],[0,"Turn left here… Stop here, please.","এখানে বামে যান… এখানে থামেন।"],[1,"Here we are.","এসে গেছি।"]],
+  patterns:[["Will you go to <em>New Market</em>?","নিউ মার্কেট যাবেন?"],["How much is the fare?","ভাড়া কত?"],["That's too much. <em>How about sixty?</em>","অনেক বেশি। ষাট হলে কেমন?"],["<em>Stop</em> here, please.","এখানে থামেন, প্লিজ।"]],
+  mistake:["How much fare?","How much is the fare?","প্রশ্নে “is” বাদ দিও না।"],
+  quiz:[["Where do you want to go?",["To New Market, please.","I want go.","Yes, I go."]],["The fare is a hundred taka.",["That's too much. How about seventy?","That's very much cheap.","I am seventy."]],["Where should I stop?",["In front of the gate, please.","Stop is here.","In the traffic."]]],
+  speak:[["Ask a rickshaw puller to take you somewhere and agree on a fare.","রিকশাওয়ালাকে কোথাও যেতে বলো এবং ভাড়া ঠিক করো।","Will you go to Gulshan 1? How much is the fare? A hundred is too much — how about eighty? Okay, let's go.",["Will you go to…?","How much…?","How about…?"]],["How do you usually travel in your city?","তুমি সাধারণত শহরে কীভাবে যাতায়াত করো?","I usually take a rickshaw for short distances and a bus for long ones. Rickshaws are slow but comfortable.",["I usually take…","for short distances"]]]
+},
+{ id:"bazaar", level:2, en:"Shopping at the bazaar", bn:"কাঁচাবাজারে কেনাকাটা",
+  scene:["Friday morning at the local bazaar. A buyer asks about tomatoes.","শুক্রবার সকালে কাঁচাবাজার। একজন ক্রেতা টমেটোর দাম জিজ্ঞেস করছেন।"],
+  people:["Buyer","Seller"],
+  words:[["per kilo","প্রতি কেজি"],["fresh","তাজা"],["fixed price","একদাম"],["half a kilo","আধা কেজি"],["reduce the price","দাম কমানো"],["Anything else?","আর কিছু লাগবে?"]],
+  lines:[[0,"How much are the tomatoes?","টমেটো কত করে?"],[1,"Sixty taka a kilo.","প্রতি কেজি ষাট টাকা।"],[0,"Are they fresh?","এগুলো কি তাজা?"],[1,"Yes, they came from the village this morning.","হ্যাঁ, আজ সকালে গ্রাম থেকে এসেছে।"],[0,"Can you make it fifty?","পঞ্চাশ টাকা করে দিবেন?"],[1,"Sorry, it's a fixed price.","দুঃখিত, একদাম।"],[0,"All right. Half a kilo, please.","ঠিক আছে। আধা কেজি দেন।"],[1,"Here you are. Anything else?","এই নেন। আর কিছু লাগবে?"],[0,"No, that's all. Thanks.","না, এটুকুই। ধন্যবাদ।"]],
+  patterns:[["How much are <em>the tomatoes</em>?","টমেটো কত করে?"],["<em>Half a kilo</em>, please.","আধা কেজি দিন।"],["Can you make it <em>fifty</em>?","পঞ্চাশ করে দেবেন?"],["No, that's all.","না, এটুকুই।"]],
+  mistake:["How much it is?","How much is it?","প্রশ্নে “is” আগে বসে: How much is it?"],
+  quiz:[["What would you like?",["One kilo of potatoes, please.","I would like it.","Potato is like."]],["It's a hundred and twenty taka a kilo.",["Can you reduce the price a little?","Can you less price?","It is very, give."]],["Anything else?",["No, that's all. Thank you.","No, I am all.","Yes, else."]]],
+  speak:[["Buy vegetables and ask for a lower price.","সবজি কেনো এবং দাম কমাতে বলো।","How much are the potatoes? Forty taka a kilo? Can you make it thirty-five? Okay, two kilos, please.",["How much are…?","Can you make it…?","… kilos, please"]],["Do you prefer a local bazaar or a supermarket? Why?","তুমি কাঁচাবাজার নাকি সুপারশপ পছন্দ করো? কেন?","I prefer the local bazaar because the vegetables are fresher and cheaper. But supermarkets are cleaner and have fixed prices.",["I prefer…","because…","But…"]]]
+},
+{ id:"weather", level:2, en:"Weather and seasons", bn:"আবহাওয়া ও ঋতু",
+  scene:["A hot afternoon in June. Two neighbours meet on the stairs.","জুনের এক গরম বিকেল। দুই প্রতিবেশীর সিঁড়িতে দেখা।"],
+  people:["Rina","Joy"],
+  words:[["hot and humid","ভ্যাপসা গরম"],["rainy season / monsoon","বর্ষাকাল"],["umbrella","ছাতা"],["waterlogged","পানি জমা"],["winter","শীতকাল"],["forecast","আবহাওয়ার পূর্বাভাস"]],
+  lines:[[0,"It's so hot and humid today!","আজ কী ভ্যাপসা গরম!"],[1,"Yes, but the forecast says it'll rain this afternoon.","হ্যাঁ, কিন্তু পূর্বাভাসে বলছে বিকেলে বৃষ্টি হবে।"],[0,"Did you bring an umbrella?","তুমি কি ছাতা এনেছ?"],[1,"No, I forgot. The roads will be waterlogged again.","না, ভুলে গেছি। রাস্তায় আবার পানি জমবে।"],[0,"Which season do you like best?","তোমার সবচেয়ে প্রিয় ঋতু কোনটা?"],[1,"Winter. I love the cool weather and pitha.","শীতকাল। ঠান্ডা আবহাওয়া আর পিঠা খুব ভালো লাগে।"],[0,"I like the rainy season. Rain on a tin roof sounds beautiful.","আমার বর্ষাকাল ভালো লাগে। টিনের চালে বৃষ্টির শব্দ খুব সুন্দর।"]],
+  patterns:[["It's <em>hot and humid</em> today.","আজ ভ্যাপসা গরম।"],["It's going to <em>rain</em>.","বৃষ্টি হবে।"],["I like <em>winter</em> best.","আমার শীতকাল সবচেয়ে প্রিয়।"],["I love <em>the cool weather</em>.","আমি ঠান্ডা আবহাওয়া ভালোবাসি।"]],
+  mistake:["Today is very hot weather.","It's very hot today. / The weather is very hot today.","আবহাওয়ার কথা বলতে সাধারণত “It's…” দিয়ে শুরু করো।"],
+  quiz:[["What's the weather like today?",["It's hot and humid.","It's weather.","Today is like hot."]],["Which season do you like best?",["I like winter best.","I am winter.","Yes, season."]],["Did you bring an umbrella?",["No, I forgot it.","No, I forget it yesterday.","Yes, it rains."]]],
+  speak:[["Describe your favourite season.","তোমার প্রিয় ঋতুর বর্ণনা দাও।","My favourite season is winter. The weather is cool and dry, and we eat different kinds of pitha. I also enjoy morning fog in my village.",["My favourite season is…","The weather is…","we eat…"]],["What problems does the rainy season bring in your area?","তোমার এলাকায় বর্ষাকালে কী কী সমস্যা হয়?","In the rainy season, the roads in my area get waterlogged. Traffic gets worse and it's hard to go to school.",["get waterlogged","Traffic gets worse"]]]
+},
+/* ---------- LEVEL 3 ---------- */
+{ id:"festival", level:3, en:"Eid and Pohela Boishakh", bn:"উৎসব: ঈদ ও পহেলা বৈশাখ",
+  scene:["A Bangladeshi student tells a foreign friend about festivals at home.","একজন বাংলাদেশি শিক্ষার্থী তার বিদেশি বন্ধুকে দেশের উৎসবের কথা বলছে।"],
+  people:["Emma","Tanvir"],
+  words:[["celebrate","উদযাপন করা"],["relatives","আত্মীয়স্বজন"],["Eid money (salami)","ঈদের সালামি"],["Bengali New Year","বাংলা নববর্ষ"],["fair","মেলা"],["traditional","ঐতিহ্যবাহী"]],
+  lines:[[0,"How do you celebrate Eid?","তুমি ঈদ কীভাবে উদযাপন করো?"],[1,"I go to my village and meet all my relatives.","আমি গ্রামে যাই আর সব আত্মীয়স্বজনের সাথে দেখা করি।"],[0,"Do you get presents?","তুমি কি উপহার পাও?"],[1,"Yes, the elders give us money. We call it “salami”. It's the best part!","হ্যাঁ, বড়রা আমাদের টাকা দেন। একে আমরা “সালামি” বলি। এটাই সবচেয়ে মজার অংশ!"],[0,"What about Pohela Boishakh?","আর পহেলা বৈশাখ?"],[1,"It's the Bengali New Year. We wear red and white and eat panta-ilish.","এটা বাংলা নববর্ষ। আমরা লাল-সাদা পোশাক পরি আর পান্তা-ইলিশ খাই।"],[0,"That sounds colourful! Is there a fair?","খুব রঙিন শোনাচ্ছে! মেলা হয়?"],[1,"Yes, there's a Boishakhi fair near my house every year. You should come!","হ্যাঁ, প্রতি বছর আমার বাসার কাছে বৈশাখী মেলা হয়। তুমি অবশ্যই এসো!"]],
+  patterns:[["We celebrate <em>Eid</em> with <em>our relatives</em>.","আমরা আত্মীয়দের সাথে ঈদ উদযাপন করি।"],["We wear <em>red and white</em>.","আমরা লাল-সাদা পরি।"],["It's the best part.","এটাই সবচেয়ে ভালো অংশ।"],["You should <em>come</em>!","তোমার অবশ্যই আসা উচিত!"]],
+  mistake:["We enjoy Eid festival very much with fun.","We really enjoy Eid.","অতিরিক্ত শব্দ বাদ দাও। সহজ বাক্যই বেশি স্বাভাবিক শোনায়।"],
+  quiz:[["How do you celebrate Eid?",["I visit my relatives and eat special food.","I celebrate very.","Eid is on Monday."]],["What do people wear on Pohela Boishakh?",["They wear red and white clothes.","They wear on Boishakh.","People is wearing."]],["Do you go to the fair?",["Yes, I go every year.","Yes, I going.","The fair is go."]]],
+  speak:[["Describe a festival you enjoy.","তোমার পছন্দের একটি উৎসবের বর্ণনা দাও।","I really enjoy Pohela Boishakh. Everyone wears traditional clothes, and there are fairs, music and special food. The whole city feels happy.",["I really enjoy…","Everyone…","there are…"]],["What did you do last Eid?","গত ঈদে তুমি কী করেছিলে?","Last Eid, I went to my grandparents' house. I wore new clothes, got salami from my uncles and ate a lot of shemai.",["Last Eid, I went…","I wore…","I ate…"]]]
+},
+{ id:"cricket", level:3, en:"Cricket talk", bn:"ক্রিকেট আড্ডা",
+  scene:["The morning after a big match. Two friends meet at the university gate.","বড় একটা ম্যাচের পরদিন সকালে দুই বন্ধুর বিশ্ববিদ্যালয়ের গেটে দেখা।"],
+  people:["Imran","Priya"],
+  words:[["match","খেলা / ম্যাচ"],["win / lose","জেতা / হারা"],["won by three wickets","তিন উইকেটে জিতেছে"],["exciting","উত্তেজনাপূর্ণ"],["fast bowler","পেস বোলার"],["field / ground","মাঠ"]],
+  lines:[[0,"Did you watch the match last night?","কাল রাতের খেলা দেখেছ?"],[1,"Of course! Bangladesh won by three wickets.","অবশ্যই! বাংলাদেশ তিন উইকেটে জিতেছে।"],[0,"The last over was so exciting.","শেষ ওভারটা খুবই উত্তেজনাপূর্ণ ছিল।"],[1,"I couldn't sit down! Everyone in my building was shouting.","আমি বসেই থাকতে পারিনি! আমাদের পুরো বিল্ডিংয়ে সবাই চিৎকার করছিল।"],[0,"Who do you think played best?","তোমার মতে কে সবচেয়ে ভালো খেলেছে?"],[1,"Our fast bowlers. They're really improving.","আমাদের পেস বোলাররা। তারা সত্যিই উন্নতি করছে।"],[0,"Do you play cricket yourself?","তুমি নিজে ক্রিকেট খেলো?"],[1,"Yes, every Friday with friends in the field near my house.","হ্যাঁ, প্রতি শুক্রবার বাসার কাছের মাঠে বন্ধুদের সাথে।"]],
+  patterns:[["Did you watch <em>the match</em>?","খেলা দেখেছ?"],["Bangladesh won by <em>three wickets</em>.","বাংলাদেশ তিন উইকেটে জিতেছে।"],["It was <em>so exciting</em>.","খুব উত্তেজনাপূর্ণ ছিল।"],["I play <em>every Friday</em>.","আমি প্রতি শুক্রবার খেলি।"]],
+  mistake:["Did you see the game yesterday night?","Did you watch the match last night?","খেলা বা টিভির জন্য “watch” বলো, আর “yesterday night” নয়, “last night”।"],
+  quiz:[["Did you watch the match?",["Yes, I watched it on TV.","Yes, I see it.","Yes, I watching."]],["Who won?",["Bangladesh won by twenty runs.","Bangladesh win it yesterday.","Winning was Bangladesh."]],["Do you play cricket?",["Yes, I play with my friends on Fridays.","Yes, I am cricket.","Yes, I played tomorrow."]]],
+  speak:[["Describe a match you remember.","তোমার মনে থাকা একটি খেলার বর্ণনা দাও।","I remember a match against India. It was very close. Bangladesh won in the last over, and my whole family jumped with joy.",["I remember…","It was…","won in the last over"]],["Why is cricket so popular in Bangladesh?","বাংলাদেশে ক্রিকেট এত জনপ্রিয় কেন?","Cricket brings people together. It's easy to play in any open space, and when the national team wins, the whole country celebrates.",["brings people together","easy to play"]]]
+},
+{ id:"traffic", level:3, en:"Stuck in Dhaka traffic", bn:"ঢাকার যানজট",
+  scene:["Sumon arrives late to a meeting. His manager asks what happened.","সুমন মিটিংয়ে দেরিতে পৌঁছায়। ম্যানেজার জানতে চান কী হয়েছে।"],
+  people:["Sumon","Manager"],
+  words:[["be stuck in traffic","জ্যামে আটকে থাকা"],["rush hour","ব্যস্ত সময়"],["metro rail","মেট্রোরেল"],["commute","অফিস/ক্লাসে যাতায়াত"],["on time","সময়মতো"],["public transport","গণপরিবহন"]],
+  lines:[[0,"Sorry I'm late. I was stuck in traffic for an hour.","দেরির জন্য দুঃখিত। এক ঘণ্টা জ্যামে আটকে ছিলাম।"],[1,"Where were you coming from?","কোথা থেকে আসছিলে?"],[0,"From Mirpur. The traffic at Farmgate was terrible.","মিরপুর থেকে। ফার্মগেটে ভয়াবহ জ্যাম ছিল।"],[1,"Why don't you take the metro rail?","মেট্রোরেলে আসো না কেন?"],[0,"Good idea. It's faster and cleaner.","ভালো বুদ্ধি। এটা দ্রুত আর পরিষ্কার।"],[1,"I use it every day, and I always get to the office on time.","আমি প্রতিদিন ব্যবহার করি, আর সবসময় সময়মতো অফিসে পৌঁছাই।"],[0,"What do you think is the solution to traffic jams?","আপনার মতে যানজটের সমাধান কী?"],[1,"More public transport and better city planning.","আরও গণপরিবহন আর শহরের ভালো পরিকল্পনা।"]],
+  patterns:[["Sorry I'm late. I was <em>stuck in traffic</em>.","দেরির জন্য দুঃখিত। জ্যামে আটকে ছিলাম।"],["Why don't you <em>take the metro</em>?","মেট্রোতে যাও না কেন?"],["It's <em>faster</em> and <em>cleaner</em>.","এটা দ্রুত আর পরিষ্কার।"],["I think we need <em>more public transport</em>.","আমার মনে হয় আরও গণপরিবহন দরকার।"]],
+  mistake:["I fell in a jam.","I was stuck in traffic. / I got stuck in a traffic jam.","“জ্যামে পড়েছিলাম” সরাসরি অনুবাদ করলে ভুল হয়। “stuck in traffic” বলো।"],
+  quiz:[["Why are you late?",["Sorry, I was stuck in traffic.","Sorry, I fell in jam.","Because traffic is me."]],["How do you get to work?",["I usually take the metro rail.","I go by the walk.","I get it by bus yesterday."]],["What's the solution to traffic jams?",["We need more public transport.","Solution is need.","We are public transport."]]],
+  speak:[["Describe your daily commute.","তোমার প্রতিদিনের যাতায়াতের বর্ণনা দাও।","I live in Uttara and work in Motijheel. I take the metro rail every day. It takes about forty minutes, so I'm usually on time.",["I live in…","I take…","It takes about…"]],["How can we reduce traffic jams in Dhaka?","ঢাকার যানজট কীভাবে কমানো যায়?","I think we need more buses and metro lines. We should also move some offices outside Dhaka and follow traffic rules strictly.",["I think we need…","We should also…"]]]
+}
+];
+const LEVELS = [
+  {n:1, en:"Starter", bn:"শুরু — নিজের কথা বলা"},
+  {n:2, en:"Everyday Bangladesh", bn:"দৈনন্দিন জীবনের কথোপকথন"},
+  {n:3, en:"Adda & opinions", bn:"আড্ডা ও মতামত"}
+];
+const STEPS = [["Words","শব্দ"],["Conversation","কথোপকথন"],["Practice","অনুশীলন"],["Speak","নিজে বলো"]];
+
+const ICON_SPK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+
+/* ---------- state ---------- */
+const store = {
+  get(k,d){ try{ const v=localStorage.getItem("adda:"+k); return v==null?d:JSON.parse(v);}catch(e){return d;} },
+  set(k,v){ try{ localStorage.setItem("adda:"+k, JSON.stringify(v)); }catch(e){} }
+};
+const S = {
+  view:"home", t:0, step:0,
+  showBn: store.get("bn", true),
+  done: new Set(store.get("done", [])),
+  shown:1, roleplay:false, revealed:new Set(), answers:{}, order:{},
+  timers:{}
+};
+const hasTTS = typeof window.speechSynthesis !== "undefined";
+
+
+const AUDIO = {"Assalamu alaikum! Hi, I'm Rahim.": "96ab23d7b8.mp3", "Walaikum assalam. I'm Nadia. Nice to meet you.": "ecb255c961.mp3", "Nice to meet you too. Where are you from?": "70702646ea.mp3", "I'm from Sylhet. And you?": "8fe97c6fa7.mp3", "I'm from Rajshahi, but I live in Dhaka now.": "6c917cb1e8.mp3", "What do you do?": "632288c938.mp3", "I'm a student. I'm learning English.": "1bc542f763.mp3", "Me too! Let's practise together.": "de4831ebca.mp3", "Nice to meet you.": "a35dfa2ba8.mp3", "Where are you from?": "4e08e027da.mp3", "Nice to meet you": "249e48694f.mp3", "I'm from…": "c5834e3986.mp3", "I live in…": "d0e8e74b24.mp3", "student": "6a5c277a0a.mp3", "classmate": "cf11362251.mp3", "practise": "3561077efc.mp3", "Hi, I'm Sadia. I'm from Cumilla, but I live in Dhaka now. I'm a university student.": "6da7cee65d.mp3", "Hi, nice to meet you! Where are you from? And what do you do?": "1eb87affc3.mp3", "How many people are there in your family?": "09cf85419f.mp3", "There are five of us.": "b266ea5cbe.mp3", "Who are they?": "9fd03be4f2.mp3", "My parents, my elder brother, my younger sister and me.": "cf0553eeeb.mp3", "What does your father do?": "e7884e0845.mp3", "He's a farmer. My mother is a homemaker.": "2e36714244.mp3", "Do you live with your grandparents?": "4c97519129.mp3", "Yes, we live in a joint family. I love it.": "63bb10b4d2.mp3", "What does your mother do?": "0684fd6e80.mp3", "Do you have any brothers or sisters?": "a857b7dd93.mp3", "parents": "827721bc5a.mp3", "elder brother": "ddc8b108bd.mp3", "younger sister": "7c5616fef4.mp3", "grandparents": "f3122b71e2.mp3", "joint family": "d2c47a0a72.mp3", "housewife / homemaker": "c580675889.mp3", "There are four of us: my parents, my younger brother and me. My father works in a bank and my mother is a teacher. We live in a small flat in Chattogram.": "284e81d96d.mp3", "I'm closest to my grandmother. She tells me stories and always listens to me.": "b54afcb797.mp3", "Where's your hometown?": "b0da67dea0.mp3", "My hometown is in Bogura.": "7ae9d3632a.mp3", "What is Bogura famous for?": "fdf259a016.mp3", "It's famous for its sweet yoghurt — mishti doi.": "917688328c.mp3", "Is it a village or a town?": "41afd4f65b.mp3", "I'm from a village. There are paddy fields and a small river.": "75c6833681.mp3", "It sounds very peaceful.": "d798f2b36f.mp3", "It is. I go there every Eid.": "aa8aab5b39.mp3", "What is it famous for?": "276c0442ff.mp3", "Do you like living there?": "a3dbab0921.mp3", "hometown": "9a92583d92.mp3", "village": "05259cb9df.mp3", "district": "7de3d3a2d9.mp3", "famous for": "b9e9b5c5d5.mp3", "paddy field": "1c4dbdc748.mp3", "peaceful": "d2e3395768.mp3", "My hometown is Jashore. It's a small, green town. It's famous for dates and flowers. I love the quiet mornings there.": "852a17d6aa.mp3", "I miss the fresh air and playing football in the field with my cousins.": "818e191933.mp3", "What's your favourite food?": "df6a0cbc96.mp3", "I love rice and hilsa fish.": "0422db59d3.mp3", "Do you like spicy food?": "64f1f4becd.mp3", "Yes! Especially potato bhorta with green chilli.": "98fc5606a5.mp3", "Who cooks at your home?": "b035cd80fe.mp3", "My mother. Her dal is the best in the world!": "6227f57f83.mp3", "Can you cook?": "b49e252442.mp3", "A little. I can make tea and fried eggs.": "9ea482a4fc.mp3", "rice": "420da40c40.mp3", "lentil soup": "3559040a45.mp3", "mashed vegetables": "6d553b8afd.mp3", "spicy": "cb503dd4fb.mp3", "delicious": "b58879c247.mp3", "favourite": "2e5d825006.mp3", "My favourite meal is rice with beef curry and dal. My mother cooks it on Fridays. It's spicy and really delicious.": "62f9a954e9.mp3", "I'd give them kacchi biryani and some mishti. Biryani is rich and tasty, and our sweets are famous.": "5ba90e3506.mp3", "What time do you usually wake up?": "83a8f9bda8.mp3", "I wake up at six in the morning.": "4650f07ef3.mp3", "What do you do after that?": "185adfbc80.mp3", "I have breakfast — roti and egg. Then I go to college.": "cfcc60e40c.mp3", "When do you come back home?": "b4a29e095f.mp3", "Around two. Then I have lunch and take a short nap.": "91805e282d.mp3", "And in the evening?": "bf6f423485.mp3", "I study and watch TV with my family.": "33b5636dbf.mp3", "What time do you wake up?": "850324b4b6.mp3", "What do you do in the evening?": "b9a55ca52b.mp3", "When do you go to bed?": "0cba883269.mp3", "wake up": "b36390a0f3.mp3", "have breakfast": "a32d8860a5.mp3", "go to class": "b2c12d8e78.mp3", "take a nap": "aaec969676.mp3", "usually": "08f78da3e6.mp3", "after that": "7eca45d2f8.mp3", "I wake up at seven and have breakfast. Then I take a bus to college. I come home at three, have lunch and rest. In the evening I study for two hours.": "2586d464b7.mp3", "On Fridays I wake up late. I go to Jumma prayer with my father, and we have a big family lunch.": "6bc5eec209.mp3", "Excuse me, one milk tea, please.": "7bd84520c5.mp3", "With sugar?": "371f59ba34.mp3", "Less sugar, please. And one biscuit.": "f6f2a7bb8f.mp3", "Here you go.": "7c12506a04.mp3", "The tea is really good! How much is it?": "4a23a05630.mp3", "Twenty taka.": "73332146d3.mp3", "Here's a hundred.": "0833c51b04.mp3", "Sorry, I don't have change. Do you have a smaller note?": "ad53c023a3.mp3", "Yes, here's twenty. Thanks!": "4d7a2abc7a.mp3", "Do you want sugar?": "0d308c20e9.mp3", "Anything else?": "7fa61d83d3.mp3", "That's twenty taka.": "b1b9f5b8ff.mp3", "a cup of tea": "68d2ccb8f4.mp3", "milk tea": "6b04b3c4db.mp3", "less sugar": "3226ffeb24.mp3", "How much is it?": "869b45dda1.mp3", "change (money)": "046a3068a5.mp3", "Excuse me, can I have one milk tea with less sugar and a packet of biscuits, please?": "f66c668ead.mp3", "Tea stalls are cheap and friendly. People meet their friends there, chat about news and cricket, and relax after work.": "49c1f6be11.mp3", "Will you go to Dhanmondi 27?": "26d0e3fb18.mp3", "Yes, I'll go.": "e792928149.mp3", "How much is the fare?": "fddd31d9c8.mp3", "Eighty taka.": "58a91e00b9.mp3", "That's too much. I'll give you sixty.": "c323f7c8bd.mp3", "Okay, seventy. Get on.": "f6251126be.mp3", "Please go slowly. There's a lot of traffic.": "030b2f5414.mp3", "Turn left here… Stop here, please.": "71857a8118.mp3", "Here we are.": "0781bcf1f2.mp3", "Where do you want to go?": "b38002ab73.mp3", "The fare is a hundred taka.": "38ff24e8d4.mp3", "Where should I stop?": "ecb185163d.mp3", "Will you go to…?": "08249ecb1f.mp3", "fare": "22470a2a50.mp3", "too much": "a5d3c45089.mp3", "turn left / right": "fb234a78c8.mp3", "Stop here, please.": "c0920ed1f2.mp3", "traffic jam": "29727ee44e.mp3", "Will you go to Gulshan 1? How much is the fare? A hundred is too much — how about eighty? Okay, let's go.": "03e2f1a506.mp3", "I usually take a rickshaw for short distances and a bus for long ones. Rickshaws are slow but comfortable.": "0c6e6f1f61.mp3", "How much are the tomatoes?": "7ac7ba5502.mp3", "Sixty taka a kilo.": "b1e9d371ad.mp3", "Are they fresh?": "546f18f83d.mp3", "Yes, they came from the village this morning.": "20121b68b5.mp3", "Can you make it fifty?": "a32c7e15d1.mp3", "Sorry, it's a fixed price.": "10d0783057.mp3", "All right. Half a kilo, please.": "469c04804a.mp3", "Here you are. Anything else?": "ff0db4b53b.mp3", "No, that's all. Thanks.": "1701e10546.mp3", "What would you like?": "75aaef6e8e.mp3", "It's a hundred and twenty taka a kilo.": "df62fdacb4.mp3", "per kilo": "d6d53ddb7e.mp3", "fresh": "c0bc71977b.mp3", "fixed price": "0536bf048d.mp3", "half a kilo": "15a1a02066.mp3", "reduce the price": "aede7a6d98.mp3", "How much are the potatoes? Forty taka a kilo? Can you make it thirty-five? Okay, two kilos, please.": "59eece4686.mp3", "I prefer the local bazaar because the vegetables are fresher and cheaper. But supermarkets are cleaner and have fixed prices.": "d84d0da9ff.mp3", "It's so hot and humid today!": "5895175a68.mp3", "Yes, but the forecast says it'll rain this afternoon.": "c9d17938d6.mp3", "Did you bring an umbrella?": "3e83528715.mp3", "No, I forgot. The roads will be waterlogged again.": "db3ee2cfe2.mp3", "Which season do you like best?": "90e1f7ee3d.mp3", "Winter. I love the cool weather and pitha.": "c33f7dc0a2.mp3", "I like the rainy season. Rain on a tin roof sounds beautiful.": "54d7cb47a9.mp3", "What's the weather like today?": "998b977d0d.mp3", "hot and humid": "417755b481.mp3", "rainy season / monsoon": "dbe9985508.mp3", "umbrella": "2772c0d401.mp3", "waterlogged": "2f2ed6af1c.mp3", "winter": "06c26d45db.mp3", "forecast": "fd95be83a1.mp3", "My favourite season is winter. The weather is cool and dry, and we eat different kinds of pitha. I also enjoy morning fog in my village.": "352480ded6.mp3", "In the rainy season, the roads in my area get waterlogged. Traffic gets worse and it's hard to go to school.": "b9205c72cf.mp3", "How do you celebrate Eid?": "6648faaaf4.mp3", "I go to my village and meet all my relatives.": "8e32418d8c.mp3", "Do you get presents?": "3ddd6dbd05.mp3", "Yes, the elders give us money. We call it “salami”. It's the best part!": "85390121c3.mp3", "What about Pohela Boishakh?": "8ea564f7d6.mp3", "It's the Bengali New Year. We wear red and white and eat panta-ilish.": "7ae7ea9a00.mp3", "That sounds colourful! Is there a fair?": "aaa710f60f.mp3", "Yes, there's a Boishakhi fair near my house every year. You should come!": "4de8684f39.mp3", "What do people wear on Pohela Boishakh?": "8a87010093.mp3", "Do you go to the fair?": "afdf91990b.mp3", "celebrate": "aaec92b84a.mp3", "relatives": "5ac2122d16.mp3", "Eid money (salami)": "1005e33aab.mp3", "Bengali New Year": "8625fdd775.mp3", "fair": "9e4c095e52.mp3", "traditional": "2896d22c24.mp3", "I really enjoy Pohela Boishakh. Everyone wears traditional clothes, and there are fairs, music and special food. The whole city feels happy.": "a6c1663620.mp3", "Last Eid, I went to my grandparents' house. I wore new clothes, got salami from my uncles and ate a lot of shemai.": "dad7b2eb66.mp3", "Did you watch the match last night?": "26cb05e1b8.mp3", "Of course! Bangladesh won by three wickets.": "c89f3861c4.mp3", "The last over was so exciting.": "15a2d31f47.mp3", "I couldn't sit down! Everyone in my building was shouting.": "302e9d88b0.mp3", "Who do you think played best?": "a3d9449e4a.mp3", "Our fast bowlers. They're really improving.": "a99428503f.mp3", "Do you play cricket yourself?": "6853fb9e0a.mp3", "Yes, every Friday with friends in the field near my house.": "fedef4a979.mp3", "Did you watch the match?": "a4ddefbffa.mp3", "Who won?": "cce3876cf9.mp3", "Do you play cricket?": "76ba1ba770.mp3", "match": "ed7c04f5b4.mp3", "win / lose": "aef2816123.mp3", "won by three wickets": "cc33beb4ad.mp3", "exciting": "2c7321e11c.mp3", "fast bowler": "b2ea118875.mp3", "field / ground": "eef8188688.mp3", "I remember a match against India. It was very close. Bangladesh won in the last over, and my whole family jumped with joy.": "5c3698b868.mp3", "Cricket brings people together. It's easy to play in any open space, and when the national team wins, the whole country celebrates.": "6889e64de1.mp3", "Sorry I'm late. I was stuck in traffic for an hour.": "d380f0d8f8.mp3", "Where were you coming from?": "df268a53b5.mp3", "From Mirpur. The traffic at Farmgate was terrible.": "4f0d562dc9.mp3", "Why don't you take the metro rail?": "434e2a2613.mp3", "Good idea. It's faster and cleaner.": "89e737937d.mp3", "I use it every day, and I always get to the office on time.": "8e9234386f.mp3", "What do you think is the solution to traffic jams?": "f545d18113.mp3", "More public transport and better city planning.": "c23a85e492.mp3", "Why are you late?": "ae8276d510.mp3", "How do you get to work?": "46ad3993da.mp3", "What's the solution to traffic jams?": "3d9eb8938e.mp3", "be stuck in traffic": "6949ba765f.mp3", "rush hour": "86cc96d45a.mp3", "metro rail": "cc721647d9.mp3", "commute": "4b69540451.mp3", "on time": "393a875474.mp3", "public transport": "d171e49861.mp3", "I live in Uttara and work in Motijheel. I take the metro rail every day. It takes about forty minutes, so I'm usually on time.": "efd4f6adfb.mp3", "I think we need more buses and metro lines. We should also move some offices outside Dhaka and follow traffic rules strictly.": "2434b2bef8.mp3", "I'm Rahim.": "d8e8bf5209.mp3", "I'm from Sylhet.": "7b9362d0a8.mp3", "I live in Dhaka now.": "31fa58685a.mp3", "I'm a student.": "a9b6ca148e.mp3", "I'm from Sylhet. / I come from Sylhet.": "719d81bcf9.mp3", "My father is a farmer.": "aca00132d5.mp3", "I have one elder brother.": "a960d4a803.mp3", "We live in a joint family.": "1e0265af38.mp3", "There are five people in my family. / There are five of us.": "72986e23c9.mp3", "It's famous for its sweet yoghurt.": "2fee4f0c2b.mp3", "There are paddy fields and a river.": "9210190fa7.mp3", "I go there every Eid.": "4e8988c612.mp3", "My hometown is Bogura. / I'm from Bogura.": "777d5708a3.mp3", "My favourite food is biryani.": "9843cad827.mp3", "I love rice and fish.": "2a747f5315.mp3", "I can make tea.": "ff4e36992b.mp3", "It's too spicy for me.": "503c86b424.mp3", "I like spicy food.": "ee2925402d.mp3", "I wake up at six.": "ad2462dec3.mp3", "After that, I have breakfast.": "1d1a36b11f.mp3", "I usually study in the evening.": "3b7f3d8617.mp3", "I go to bed around eleven.": "51163d904d.mp3", "I wake up at six o'clock.": "6d5bfe28ee.mp3", "One milk tea, please.": "9aba7d249e.mp3", "Less sugar, please.": "720a01e213.mp3", "Do you have change?": "c32b706a1c.mp3", "Excuse me, one tea, please. / Can I have a tea, please?": "f6e097bf4b.mp3", "Will you go to New Market?": "8455df21c8.mp3", "That's too much. How about sixty?": "595d1799a7.mp3", "Half a kilo, please.": "123a0bf205.mp3", "No, that's all.": "907c3cd460.mp3", "It's hot and humid today.": "e8c4201afe.mp3", "It's going to rain.": "46e5805993.mp3", "I like winter best.": "7ce8f74713.mp3", "I love the cool weather.": "8330aec208.mp3", "It's very hot today. / The weather is very hot today.": "a56c190002.mp3", "We celebrate Eid with our relatives.": "93b1fcf9a8.mp3", "We wear red and white.": "d604995b1d.mp3", "It's the best part.": "fdb26397ba.mp3", "You should come!": "6632d77ac7.mp3", "We really enjoy Eid.": "0c63fd405d.mp3", "Bangladesh won by three wickets.": "3fc5aaa63c.mp3", "It was so exciting.": "fabda82352.mp3", "I play every Friday.": "066519c72d.mp3", "Sorry I'm late. I was stuck in traffic.": "f8bc7c95ab.mp3", "Why don't you take the metro?": "d98ca08da3.mp3", "It's faster and cleaner.": "c411783886.mp3", "I think we need more public transport.": "09f6eb65f2.mp3", "I was stuck in traffic. / I got stuck in a traffic jam.": "474ad90ae8.mp3"};
+let player = null, rep = null;
+const GAP = 700;
+const stripTags = s => String(s).replace(/<[^>]+>/g,"");
+function stopAll(){
+  if(rep && rep.timer) clearTimeout(rep.timer);
+  rep = null;
+  try{ if(player){ player.onended=null; player.pause(); } }catch(e){}
+  try{ if(hasTTS) speechSynthesis.cancel(); }catch(e){}
+  markReps();
+}
+function playOnce(text, done){
+  const clip = AUDIO[stripTags(text)];
+  if(clip){
+    try{
+      if(hasTTS) speechSynthesis.cancel();
+      if(player){ player.onended=null; player.pause(); }
+      player = new Audio("a/"+clip);
+      player.onended = done;
+      player.play().catch(()=>ttsOnce(text, done));
+      return;
+    }catch(e){}
+  }
+  ttsOnce(text, done);
+}
+function ttsOnce(text, done){
+  if(!hasTTS){ done && done(); return; }
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(stripTags(text));
+    u.lang = "en-GB"; u.rate = 0.9;
+    const vs = speechSynthesis.getVoices();
+    const v = vs.find(v=>/en[-_]GB/i.test(v.lang)) || vs.find(v=>/^en/i.test(v.lang));
+    if(v) u.voice = v;
+    u.onend = done;
+    speechSynthesis.speak(u);
+  }catch(e){ done && done(); }
+}
+function playRepeat(text, n, toggle){
+  const same = rep && rep.text===text && rep.n===n;
+  stopAll();
+  if(toggle && same) return;
+  const r = {text, n, i:1};
+  rep = r; markReps();
+  const next = () => {
+    if(rep!==r) return;
+    if(r.i>=n){ rep=null; markReps(); return; }
+    r.timer = setTimeout(()=>{ if(rep!==r) return; r.i++; markReps(); playOnce(text, next); }, GAP);
+  };
+  playOnce(text, next);
+}
+function say(text){ playRepeat(text, 1, false); }
+function markReps(){
+  document.querySelectorAll(".rep").forEach(el=>{
+    const active = rep && el.dataset.text===rep.text;
+    el.querySelectorAll("[data-play]").forEach(btn=>{
+      const n = +btn.dataset.play;
+      const on = !!(active && rep.n===n);
+      btn.classList.toggle("on", on);
+      if(n>1) btn.textContent = on ? `${rep.i}/${n}` : `${n}×`;
+    });
+  });
+}
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const spk = raw => { const text = stripTags(raw); return `<span class="rep" data-text="${esc(text)}"><button class="spk" data-play="1" aria-label="Play once: ${esc(text)}">${ICON_SPK}</button><span class="reps">${[3,6,9,18].map(n=>`<button class="rx" data-play="${n}" aria-label="Play ${n} times">${n}×</button>`).join("")}</span></span>`; };
+const initials = n => n.split(/\s+/).map(w=>w[0]).join("").slice(0,2).toUpperCase();
+
+function shuffled(tid, qi, arr){
+  const key = tid+":"+qi;
+  if(!S.order[key]){
+    const idx = arr.map((_,i)=>i);
+    for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; }
+    S.order[key]=idx;
+  }
+  return S.order[key];
+}
+
+/* ---------- render ---------- */
+const app = document.getElementById("app");
+function applyBn(){ document.documentElement.classList.toggle("hidebn", !S.showBn); }
+
+function bar(){
+  return `<div class="bar">
+    <div class="brand">Adda English <small class="bn">আড্ডা ইংলিশ</small></div>
+    <div class="spacer"></div>
+    <button class="toggle" id="bnToggle" aria-pressed="${S.showBn}"><span class="knob"></span><span class="bn">বাংলা</span></button>
+  </div>`;
+}
+
+function renderHome(){
+  const pct = Math.round(S.done.size / TOPICS.length * 100);
+  let h = bar() + `<header class="hero">
+    <div class="eyebrow">Yuhan Academy · Speaking practice</div>
+    <h1>Talk about <span>everyday Bangladesh</span> in English.</h1>
+    <p>Twelve real-life conversations, from saying hello to discussing Dhaka traffic. Each topic moves in four steps, and Bangla support is there whenever you need it.</p>
+    <p class="bn bn-only">শুভেচ্ছা বিনিময় থেকে শুরু করে ঢাকার যানজট পর্যন্ত — ১২টি বাস্তব কথোপকথন। প্রতিটি বিষয় চার ধাপে শেখো।</p>
+    <div class="how"><span>1 · Learn the words</span><span>2 · Follow the conversation</span><span>3 · Choose the right reply</span><span>4 · Speak for 45 seconds</span></div>
+    <div class="progress"><div class="pbar"><i style="width:${pct}%"></i></div><span>${S.done.size} of ${TOPICS.length} topics done</span></div>
+  </header>`;
+  LEVELS.forEach(L=>{
+    h += `<section class="level"><div class="levelhead"><span class="lv">Level ${L.n}</span><h2>${L.en}</h2><span class="bn bn-only">${L.bn}</span></div><div class="grid">`;
+    TOPICS.forEach((t,i)=>{ if(t.level!==L.n) return;
+      h += `<button class="card" data-open="${i}">
+        <span class="num"><span>Topic ${i+1}</span>${S.done.has(t.id)?'<span class="done">✓ Done</span>':''}</span>
+        <h3>${t.en}</h3><span class="bn bn-only">${t.bn}</span>
+        <span class="scene">${t.people[0]} &amp; ${t.people[1]} · ${t.lines.length} lines</span>
+      </button>`;
+    });
+    h += `</div></section>`;
+  });
+  h += `<footer>Tap any speaker button to hear natural English audio. Your progress is saved in this browser.</footer>`;
+  app.innerHTML = h;
+}
+
+function renderTopic(){
+  const t = TOPICS[S.t];
+  let h = bar() + `<div class="thead">
+    <button class="back" id="back">← All topics</button>
+    <div class="eyebrow" style="margin-top:8px">Level ${t.level} · Topic ${S.t+1}</div>
+    <h1>${t.en}</h1><div class="bn bn-only">${t.bn}</div>
+  </div>
+  <nav class="steps" aria-label="Steps">${STEPS.map((s,i)=>`<button data-step="${i}" ${i===S.step?'aria-current="step"':''}><span class="n">${i+1}</span>${s[0]}<small>${s[1]}</small></button>`).join("")}</nav>
+  <div class="panel">`;
+  h += [stepWords, stepChat, stepQuiz, stepSpeak][S.step](t);
+  h += `</div><div class="stepnav">
+    <button class="btn" id="prev" ${S.step===0?'disabled':''}>← ${S.step>0?STEPS[S.step-1][0]:'Back'}</button>
+    ${S.step<3?`<button class="btn primary" id="next">${STEPS[S.step+1][0]} →</button>`:`<button class="btn primary" id="nextTopic">${S.t<TOPICS.length-1?'Next topic →':'All topics'}</button>`}
+  </div>`;
+  app.innerHTML = h;
+}
+
+function stepWords(t){
+  return `<div class="legend"><span><b>Listen and repeat.</b> Play once, or choose 3×, 6×, 9× or 18× to hear it again and again. Tap the same button to stop.</span><span class="bn bn-only">একবার শুনতে প্লে চাপো, বারবার শুনতে 3× / 6× / 9× / 18× চাপো। থামাতে আবার চাপো।</span></div>
+  <div class="section-title">Key words <span class="bn bn-only">গুরুত্বপূর্ণ শব্দ</span></div>
+  <div class="words">${t.words.map(w=>`<div class="word"><div><b>${w[0]}</b><span class="bn bn-only">${w[1]}</span></div>${spk(w[0])}</div>`).join("")}</div>
+  <div class="section-title">Sentence patterns <span class="bn bn-only">বাক্যের কাঠামো</span></div>
+  <div class="patterns">${t.patterns.map(p=>`<div class="pattern"><div class="en">${p[0]}</div><div class="bn bn-only">${p[1]}</div><div class="pr">${spk(p[0])}</div></div>`).join("")}</div>
+  <div class="section-title">Common mistake <span class="bn bn-only">সাধারণ ভুল</span></div>
+  <div class="mistake"><div class="w"><small>Don't say</small><span>${t.mistake[0]}</span></div><div class="r"><small>Say</small>${t.mistake[1]}<div class="bctl">${spk(t.mistake[1])}</div></div><p class="bn bn-only">${t.mistake[2]}</p></div>`;
+}
+
+function stepChat(t){
+  const B = t.people[1];
+  const total = t.lines.length;
+  let bubbles = t.lines.slice(0,S.shown).map((l,i)=>{
+    const side = l[0]===0?"a":"b";
+    const name = t.people[l[0]];
+    const hideEn = S.roleplay && l[0]===1 && !S.revealed.has(i);
+    const body = hideEn
+      ? `<span class="rp-prompt">Your turn. Say this in English:</span><span class="bn" style="opacity:1">${l[2]}</span><button class="reveal" data-reveal="${i}">Show the English</button>`
+      : `<span class="en">${l[1]}</span><span class="bn bn-only">${l[2]}</span><div class="bctl">${spk(l[1])}</div>`;
+    return `<div class="msg ${side}"><div class="av" aria-hidden="true">${initials(name)}</div><div class="bubble"><span class="who">${name}</span>${body}</div></div>`;
+  }).join("");
+  return `<div class="scenebox"><span class="tag">Scene</span><div><p>${t.scene[0]}</p><p class="bn bn-only">${t.scene[1]}</p></div></div>
+  <div class="modes" role="group" aria-label="Mode">
+    <button class="chip" data-mode="read" aria-pressed="${!S.roleplay}">Read &amp; listen</button>
+    <button class="chip" data-mode="rp" aria-pressed="${S.roleplay}">Role-play: you are ${B}</button>
+  </div>
+  <div class="chat" aria-live="polite">${bubbles}</div>
+  <div class="chatctl">
+    <button class="btn primary" id="nextLine" ${S.shown>=total?'disabled':''}>Next line</button>
+    <button class="btn" id="allLines" ${S.shown>=total?'disabled':''}>Show all</button>
+    <button class="btn" id="restart">Start again</button>
+    <span class="counter">${S.shown} / ${total}</span>
+  </div>`;
+}
+
+function stepQuiz(t){
+  const ans = S.answers[t.id] || {};
+  let correct = 0, count = 0;
+  const qs = t.quiz.map((q,qi)=>{
+    const ord = shuffled(t.id, qi, q[1]);
+    const picked = ans[qi];
+    if(picked!==undefined){ count++; if(picked===0) correct++; }
+    return `<div class="q"><div class="said"><div class="av" aria-hidden="true">${initials(t.people[0])}</div><div><small>${t.people[0]} says:</small><span class="en">“${q[0]}”</span></div>${spk(q[0])}</div>
+      <div class="opts">${ord.map(oi=>{
+        let cls="", mark="";
+        if(picked!==undefined){
+          if(oi===0){cls="right";mark="Correct";}
+          else if(oi===picked){cls="wrong";mark="Not quite";}
+        }
+        return `<button class="opt ${cls}" data-q="${qi}" data-o="${oi}" ${picked!==undefined?'disabled':''}><span>${q[1][oi]}</span><span class="mark">${mark}</span></button>`;
+      }).join("")}</div></div>`;
+  }).join("");
+  const done = count===t.quiz.length;
+  return `<div class="section-title">Choose the best reply <span class="bn bn-only">সঠিক উত্তরটি বেছে নাও</span></div>${qs}
+  <div class="chatctl"><span class="score">${done?`You got ${correct} of ${t.quiz.length}`:`${count} of ${t.quiz.length} answered`}</span>${done?`<button class="btn" id="retry">Try again</button>`:''}</div>`;
+}
+
+function stepSpeak(t){
+  const sp = t.speak.map((s,i)=>{
+    const tm = S.timers[t.id+i];
+    const left = tm ? tm.left : 45;
+    return `<div class="sp"><div class="qq">${s[0]}</div><div class="bn bn-only">${s[1]}</div>
+      <div class="helpers">${s[3].map(x=>`<span>${x}</span>`).join("")}</div>
+      <div class="ctl"><button class="btn primary" data-timer="${i}">${tm&&tm.running?'Stop':'Speak for 45 s'}</button><span class="timer ${left<=10?'low':''}" id="tm${i}">${left}</span>
+      <button class="btn" data-sample="${i}">${S.revealed.has('s'+i)?'Hide':'Show'} sample answer</button></div>
+      ${S.revealed.has('s'+i)?`<div class="sample"><div><small>Sample answer</small>${s[2]}</div>${spk(s[2])}</div>`:''}
+    </div>`;
+  }).join("");
+  const isDone = S.done.has(t.id);
+  return `<div class="section-title">Your turn to speak <span class="bn bn-only">এবার তুমি বলো</span></div>
+  <p style="margin:0;color:var(--muted)">Say your answer out loud. Use the helper phrases, then compare with the sample.</p>${sp}
+  <div class="finish"><p>${isDone?'<b>Topic complete.</b> Come back any time to practise again.':'Finished speaking? Mark this topic as done to track your progress.'}</p>
+  <button class="btn ${isDone?'':'primary'}" id="markDone">${isDone?'Mark as not done':'Mark topic done'}</button></div>`;
+}
+
+function render(){ applyBn(); S.view==="home"?renderHome():renderTopic(); markReps(); tgBack(); }
+
+/* ---------- Telegram Mini App ---------- */
+const TG = (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData !== undefined && Telegram.WebApp.platform !== "unknown") ? Telegram.WebApp : null;
+function tgTheme(){
+  if(!TG) return;
+  document.documentElement.setAttribute("data-theme", TG.colorScheme === "dark" ? "dark" : "light");
+  const bg = getComputedStyle(document.documentElement).getPropertyValue("--bg").trim();
+  try{ TG.setHeaderColor(bg); TG.setBackgroundColor(bg); }catch(e){}
+}
+function tgBack(){
+  if(!TG) return;
+  try{ S.view==="topic" ? TG.BackButton.show() : TG.BackButton.hide(); }catch(e){}
+}
+if(TG){
+  TG.ready(); TG.expand();
+  tgTheme();
+  TG.onEvent("themeChanged", tgTheme);
+  TG.BackButton.onClick(()=>{ stopTimers(); S.view="home"; render(); window.scrollTo(0,0); });
+}
+
+
+function openTopic(i){ stopTimers(); S.view="topic"; S.t=i; S.step=0; resetChat(); render(); window.scrollTo(0,0); }
+function resetChat(){ S.shown=1; S.revealed=new Set(); }
+function setStep(n){ stopTimers(); S.step=n; S.revealed=new Set(); S.shown=1; render(); window.scrollTo(0,0); }
+function stopTimers(){ stopAll(); Object.values(S.timers).forEach(tm=>clearInterval(tm.id)); S.timers={}; }
+
+app.addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  if(b.dataset.play){ playRepeat(b.closest('.rep').dataset.text, +b.dataset.play, true); return; }
+  if(b.id==="bnToggle"){ S.showBn=!S.showBn; store.set("bn",S.showBn); b.setAttribute("aria-pressed",S.showBn); applyBn(); return; }
+  if(b.dataset.open!==undefined){ openTopic(+b.dataset.open); return; }
+  if(b.id==="back"){ stopTimers(); S.view="home"; render(); window.scrollTo(0,0); return; }
+  if(b.dataset.step!==undefined){ setStep(+b.dataset.step); return; }
+  if(b.id==="prev"){ if(S.step>0) setStep(S.step-1); return; }
+  if(b.id==="next"){ setStep(S.step+1); return; }
+  if(b.id==="nextTopic"){ if(S.t<TOPICS.length-1) openTopic(S.t+1); else { S.view="home"; render(); } return; }
+  const t = TOPICS[S.t];
+  if(b.dataset.mode){ S.roleplay = b.dataset.mode==="rp"; resetChat(); render(); if(S.roleplay) say(t.lines[0][1]); return; }
+  if(b.id==="nextLine"){ S.shown=Math.min(S.shown+1,t.lines.length); render(); const l=t.lines[S.shown-1]; if(!(S.roleplay&&l[0]===1)) say(l[1]); scrollChat(); return; }
+  if(b.id==="allLines"){ S.shown=t.lines.length; render(); return; }
+  if(b.id==="restart"){ resetChat(); render(); return; }
+  if(b.dataset.reveal!==undefined){ const i=+b.dataset.reveal; S.revealed.add(i); render(); say(t.lines[i][1]); return; }
+  if(b.dataset.q!==undefined){ const a=S.answers[t.id]||(S.answers[t.id]={}); a[+b.dataset.q]=+b.dataset.o; render(); return; }
+  if(b.id==="retry"){ delete S.answers[t.id]; t.quiz.forEach((_,qi)=>delete S.order[t.id+":"+qi]); render(); return; }
+  if(b.dataset.sample!==undefined){ const k='s'+b.dataset.sample; S.revealed.has(k)?S.revealed.delete(k):S.revealed.add(k); render(); return; }
+  if(b.dataset.timer!==undefined){ toggleTimer(t, +b.dataset.timer); return; }
+  if(b.id==="markDone"){ S.done.has(t.id)?S.done.delete(t.id):S.done.add(t.id); store.set("done",[...S.done]); render(); return; }
+});
+
+function scrollChat(){ const c=app.querySelector(".chat .msg:last-child"); if(c) c.scrollIntoView({block:"nearest",behavior:"smooth"}); }
+
+function toggleTimer(t,i){
+  const key=t.id+i; const tm=S.timers[key];
+  if(tm && tm.running){ clearInterval(tm.id); tm.running=false; render(); return; }
+  const st = {left:45, running:true};
+  S.timers[key]=st;
+  st.id=setInterval(()=>{
+    st.left--; const el=document.getElementById("tm"+i);
+    if(el){ el.textContent=st.left; el.classList.toggle("low", st.left<=10); }
+    if(st.left<=0){ clearInterval(st.id); st.running=false; st.left=0; render(); }
+  },1000);
+  render();
+}
+
+if(hasTTS){ try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged=()=>{}; }catch(e){} }
+render();
+</script>
+
+</body></html>
